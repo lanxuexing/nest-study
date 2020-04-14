@@ -1,4 +1,5 @@
-import { Controller, Get, Render } from '@nestjs/common';
+import { Body, Controller, Get, Post, Render, Res } from '@nestjs/common';
+import { Response } from 'express';
 import { AppService } from './app.service';
 
 @Controller()
@@ -25,6 +26,18 @@ export class AppController {
     return {
       newsList: this.appService.getNews()
     };
+  }
+
+  @Get('login')
+  @Render('login') // 使用模版引擎渲染
+  getLogin() {
+    return;
+  }
+
+  @Post('addUser')
+  addUser(@Body() body: {username: string, password: string}, @Res() res: Response) {
+    console.log('收到参数: ', '用户名: ', body.username, ' 密码：', body.password);
+    res.redirect('news');
   }
 
 }
